@@ -1,37 +1,39 @@
 import React, { Component } from 'react';
+import { nanoid } from 'nanoid';
 
 class Form extends Component {
   state = {
     name: '',
     number: '',
+    id: '',
   };
 
-  handleChange = ({ target: { value, name } }) => {
+  onFormChange = ({ target: { value, name } }) => {
+    const id = nanoid();
+
     this.setState({
       [name]: value,
+      id: id,
     });
   };
 
-  handleSubmit = event => {
+  onFormSubmit = event => {
     event.preventDefault();
-    this.props.contactsData(this.state);
-
-    this.setState({
-      name: '',
-      number: '',
-    });
+    this.props.createContact(this.state);
   };
 
   render() {
+    // console.log(this.state);
+
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.onFormSubmit}>
           <label>
             Name
             <input
               type="text"
               name="name"
-              onChange={this.handleChange}
+              onChange={this.onFormChange}
               value={this.state.name}
               required
             />
@@ -42,7 +44,7 @@ class Form extends Component {
             <input
               type="tel"
               name="number"
-              onChange={this.handleChange}
+              onChange={this.onFormChange}
               value={this.state.number}
               required
             />
