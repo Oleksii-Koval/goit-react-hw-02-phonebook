@@ -21,6 +21,10 @@ class Form extends Component {
   onFormSubmit = event => {
     event.preventDefault();
     this.props.createContact(this.state);
+    this.setState({
+      name: '',
+      number: '',
+    });
   };
 
   render() {
