@@ -21,6 +21,23 @@ export class App extends Component {
       id: data.id,
     };
 
+    const checkName = this.state.contacts.find(
+      contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
+    );
+    const checkNumber = this.state.contacts.find(
+      contact => contact.number === newContact.number
+    );
+
+    if (checkName) {
+      return alert(`${newContact.name} is already in contacts.`);
+    }
+
+    if (checkNumber) {
+      return alert(
+        `This phone number "${newContact.number}" is already in use.`
+      );
+    }
+
     this.setState(prev => ({
       contacts: [...prev.contacts, newContact],
     }));
@@ -37,7 +54,6 @@ export class App extends Component {
   };
 
   render() {
-    console.log('this.state :', this.state);
     return (
       <div>
         <Form
@@ -45,13 +61,13 @@ export class App extends Component {
           createContact={this.createContact}
           onSubmit={this.onFormSubmit}
         />
+
+        <FilterContacts onFilter={this.handleFilter} />
         <ContactList
           contacts={this.state.contacts}
           deleteContact={this.deleteContact}
           filter={this.state.filter}
-        >
-          <FilterContacts onFilter={this.handleFilter} />
-        </ContactList>
+        />
       </div>
     );
   }
